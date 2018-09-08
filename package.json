@@ -9,7 +9,9 @@
   "author": "cristobaldominguez95",
   "license": "MIT",
   "dependencies": {
+    "body-parser": "^1.18.3",
     "express": "^4.16.3",
-    "redis": "^2.8.0"
+    "redis": "^2.8.0",
+    "uniqid": "^5.0.3"
   }
 }
