@@ -8,6 +8,14 @@ module.exports = {
     }).catch(err => {
 
     });
+  },
+
+  getAll(req, res) {
+    db.getAllProducts().then(products => {
+      res.json(products);
+    }).catch(err => {
+
+    });
   }
 
 };

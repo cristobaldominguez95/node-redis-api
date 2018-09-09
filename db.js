@@ -12,9 +12,23 @@ module.exports = {
     return new Promise((resolve, reject) => {
     redisClient.set(`products:${product.id}`, productString, (err, reply) => {
         if (err) reject(err);
-        redisClient.lpush('products', product.id, (err, reply) => {
+        redisClient.rpush('products', `products:${product.id}`, (err, reply) => {
           if (err) reject(err);
           resolve(product);
+        });
+      });
+    });
+  },
+
+  getAllProducts() {
+    return new Promise((resolve, reject) => {
+      redisClient.lrange('products', 0, -1, (err, products) => {
+        if (err) reject(err);
+        if (products.length === 0) resolve([]);
+        redisClient.mget(products, (err, products) => {
+          if (err) reject(err);
+          products = products.map(product => JSON.parse(product));
+          resolve(products);
         });
       });
     });
