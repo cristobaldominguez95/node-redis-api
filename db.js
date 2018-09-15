@@ -8,13 +8,12 @@ module.exports = {
 
   storeProduct(product) {
     product.id = uniqid();
-    let productString = JSON.stringify(product);
     return new Promise((resolve, reject) => {
-    redisClient.set(`products:${product.id}`, productString, (err, reply) => {
-        if (err) reject(err);
-        redisClient.rpush('products', `products:${product.id}`, (err, reply) => {
-          if (err) reject(err);
-          resolve(product);
+    redisClient.set(`products:${product.id}`, JSON.stringify(product), (err, reply) => {
+        if (err) return reject(err);
+        redisClient.sadd('products', `products:${product.id}`, (err, reply) => {
+          if (err) return reject(err);
+          return resolve(product);
         });
       });
     });
@@ -22,13 +21,13 @@ module.exports = {
 
   getAllProducts() {
     return new Promise((resolve, reject) => {
-      redisClient.lrange('products', 0, -1, (err, products) => {
-        if (err) reject(err);
-        if (products.length === 0) resolve([]);
+      redisClient.smembers('products', (err, products) => {
+        if (err) return reject(err);
+        if (products.length === 0) return resolve([]);
         redisClient.mget(products, (err, products) => {
-          if (err) reject(err);
+          if (err) return reject(err);
           products = products.map(product => JSON.parse(product));
-          resolve(products);
+          return resolve(products);
         });
       });
     });
