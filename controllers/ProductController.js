@@ -16,6 +16,15 @@ module.exports = {
     }).catch(err => {
 
     });
+  },
+
+  getOne(req, res) {
+    db.getOneProduct(req.params.productId).then(product => {
+      if (!product) return res.sendStatus(404);
+      return res.json(product);
+    }).catch(err => {
+
+    });
   }
 
 };

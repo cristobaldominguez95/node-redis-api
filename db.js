@@ -31,6 +31,16 @@ module.exports = {
         });
       });
     });
+  },
+
+  getOneProduct(productId) {
+    return new Promise((resolve, reject) => {
+      redisClient.get(`products:${productId}`, (err, product) => {
+        if (err) return reject(err);
+        if (!product) return resolve(null);
+        return resolve(JSON.parse(product));
+      });
+    });
   }
 
 }
