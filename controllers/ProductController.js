@@ -6,7 +6,8 @@ module.exports = {
     db.storeProduct(req.body).then(product => {
       res.json(product);
     }).catch(err => {
-
+      console.log(err);
+      res.sendStatus(404);
     });
   },
 
@@ -14,7 +15,8 @@ module.exports = {
     db.getAllProducts().then(products => {
       res.json(products);
     }).catch(err => {
-
+      console.log(err);
+      res.sendStatus(404);
     });
   },
 
@@ -23,7 +25,8 @@ module.exports = {
       if (!product) return res.sendStatus(404);
       return res.json(product);
     }).catch(err => {
-
+      console.log(err);
+      res.sendStatus(404);
     });
   },
 
@@ -32,7 +35,8 @@ module.exports = {
       if (reply === 0) return res.sendStatus(404);
       res.sendStatus(200);
     }).catch(err => {
-      
+      console.log(err);
+      res.sendStatus(404);
     });
   }
 
