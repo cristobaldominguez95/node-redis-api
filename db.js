@@ -41,6 +41,19 @@ module.exports = {
         return resolve(JSON.parse(product));
       });
     });
+  },
+
+  deleteProduct(productId) {
+    return new Promise((resolve, reject) => {
+      redisClient.del(`products:${productId}`, (err, reply) => {
+        if (err) return reject(err);
+        if (reply === 0) return resolve(reply);
+        redisClient.srem('products', `products:${productId}`, (err, reply) => {
+          if (err) return reject(err);
+          return resolve(reply);
+        });
+      });
+    });
   }
 
 }

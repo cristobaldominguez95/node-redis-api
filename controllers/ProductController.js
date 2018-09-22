@@ -25,6 +25,15 @@ module.exports = {
     }).catch(err => {
 
     });
+  },
+
+  delete(req, res) {
+    db.deleteProduct(req.params.productId).then(reply => {
+      if (reply === 0) return res.sendStatus(404);
+      res.sendStatus(200);
+    }).catch(err => {
+      
+    });
   }
 
 };
