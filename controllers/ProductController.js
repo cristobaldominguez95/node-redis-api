@@ -38,6 +38,16 @@ module.exports = {
       console.log(err);
       res.sendStatus(404);
     });
+  },
+
+  update(req, res) {
+    db.updateProduct(req.params.productId, req.body).then(updatedProduct => {
+      if (!updatedProduct) return res.sendStatus(404);
+      return res.json(updatedProduct);
+    }).catch(err => {
+      console.log(err);
+      res.sendStatus(404);
+    });
   }
 
 };
